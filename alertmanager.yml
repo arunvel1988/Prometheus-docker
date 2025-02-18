@@ -1,8 +1,8 @@
 global:
   smtp_smarthost: 'smtp.gmail.com:587'
-  smtp_from: 'aryan.arunachalam@gmail.com'
-  smtp_auth_username: 'aryan.arunachalam@gmail.com'
-  smtp_auth_password: 'Ssjcoe123@#'
+  smtp_from: 'csemanit2015@gmail.com'
+  smtp_auth_username: 'csemanit2015@gmail.com'
+  smtp_auth_password: 'weilcsagyudbvizv'
 
 route:
   receiver: 'email-alerts'
@@ -10,5 +10,5 @@ route:
 receivers:
   - name: 'email-alerts'
     email_configs:
-      - to: 'csemanit2015@gmail.com'
+      - to: 'aryan.arunachalam@gmail.com'
         send_resolved: true
