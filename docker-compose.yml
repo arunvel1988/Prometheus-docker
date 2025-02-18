@@ -1,0 +1,92 @@
+version: '3'
+
+services:
+  # NGINX Service
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8080:80"       # Expose NGINX on port 8080
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro  # Mount custom nginx.conf
+    networks:
+      - monitoring
+
+  # NGINX Exporter (to expose NGINX metrics)
+  nginx_exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx_exporter
+    environment:
+      - NGINX_SERVER_ADDR=http://nginx:80/nginx_status  # NGINX status page URL
+    ports:
+      - "9113:9113"  # Expose the metrics endpoint on port 9113
+    networks:
+      - monitoring
+
+  # Node Exporter (to expose system metrics like CPU, memory, etc.)
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    ports:
+      - "9100:9100"  # Expose the system metrics endpoint on port 9100
+    networks:
+      - monitoring
+
+  # MySQL Service
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword  # Set MySQL root password
+      MYSQL_DATABASE: monitoring_db     # Create a database for monitoring purposes
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persist MySQL data
+    ports:
+      - "3306:3306"  # Expose MySQL on port 3306
+    networks:
+      - monitoring
+
+  # MySQL Exporter (to expose MySQL metrics)
+  mysql_exporter:
+    image: prom/mysqld-exporter:latest
+    container_name: mysql_exporter
+    environment:
+      - DATA_SOURCE_NAME=root:rootpassword@(mysql:3306)/  # Connection string to MySQL
+    ports:
+      - "9104:9104"  # Expose the MySQL metrics endpoint on port 9104
+    networks:
+      - monitoring
+
+  # Prometheus (for scraping metrics)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Mount Prometheus config file
+    ports:
+      - "9090:9090"  # Expose Prometheus web interface on port 9090
+    networks:
+      - monitoring
+
+  # Grafana (for visualization)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Set Grafana admin password
+    ports:
+      - "3000:3000"  # Expose Grafana web interface on port 3000
+    volumes:
+      - grafana_data:/var/lib/grafana  # Persist Grafana data
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  grafana_data:  # Persist Grafana data
+  mysql_data:  # Persist MySQL data
