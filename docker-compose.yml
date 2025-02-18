@@ -32,9 +32,6 @@ services:
     networks:
       - monitoring
 
-
-
-
   # Prometheus (for scraping metrics)
   prometheus:
     image: prom/prometheus:latest
@@ -45,6 +42,8 @@ services:
       - "9090:9090"  # Expose Prometheus web interface on port 9090
     networks:
       - monitoring
+    depends_on:
+      - alertmanager
 
   # Grafana (for visualization)
   grafana:
@@ -61,10 +60,20 @@ services:
     depends_on:
       - prometheus
 
+  # Alertmanager (for alert notifications)
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/config.yml  # Mount Alertmanager config file
+    ports:
+      - "9093:9093"  # Expose Alertmanager web interface on port 9093
+    networks:
+      - monitoring
+
 networks:
   monitoring:
     driver: bridge
 
 volumes:
   grafana_data:  # Persist Grafana data
-
