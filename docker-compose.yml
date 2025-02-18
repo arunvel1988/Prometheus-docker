@@ -32,30 +32,8 @@ services:
     networks:
       - monitoring
 
-  # MySQL Service
-  mysql:
-    image: mysql:5.7
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword  # Set MySQL root password
-      MYSQL_DATABASE: monitoring_db     # Create a database for monitoring purposes
-    volumes:
-      - mysql_data:/var/lib/mysql  # Persist MySQL data
-    ports:
-      - "3306:3306"  # Expose MySQL on port 3306
-    networks:
-      - monitoring
 
-  # MySQL Exporter (to expose MySQL metrics)
-  mysql_exporter:
-    image: prom/mysqld-exporter:latest
-    container_name: mysql_exporter
-    environment:
-      - DATA_SOURCE_NAME=root:rootpassword@(mysql:3306)/  # Connection string to MySQL
-    ports:
-      - "9104:9104"  # Expose the MySQL metrics endpoint on port 9104
-    networks:
-      - monitoring
+
 
   # Prometheus (for scraping metrics)
   prometheus:
@@ -89,4 +67,4 @@ networks:
 
 volumes:
   grafana_data:  # Persist Grafana data
-  mysql_data:  # Persist MySQL data
+
