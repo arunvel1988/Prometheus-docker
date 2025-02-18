@@ -1,0 +1,14 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'aryan.arunachalam@gmail.com'
+  smtp_auth_username: 'aryan.arunachalam@gmail.com'
+  smtp_auth_password: 'Ssjcoe123@#'
+
+route:
+  receiver: 'email-alerts'
+
+receivers:
+  - name: 'email-alerts'
+    email_configs:
+      - to: 'csemanit2015@gmail.com'
+        send_resolved: true
