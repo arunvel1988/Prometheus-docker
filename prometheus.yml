@@ -3,7 +3,7 @@ global:
 
 scrape_configs:
   - job_name: 'nginx'
-    metrics_path: /nginx_status  # Ensure Prometheus scrapes NGINX status page
+    metrics_path: /nginx_status
     static_configs:
       - targets: ['nginx:80']
 
@@ -15,5 +15,12 @@ scrape_configs:
     static_configs:
       - targets: ['node_exporter:9100']
 
+# Specify where to send alerts
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]
+
 rule_files:
-  - "alert.rules"
+  - "alert.rules"  
+
