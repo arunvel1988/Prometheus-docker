@@ -1,0 +1,13 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'slack-alerts'
+
+receivers:
+  - name: 'slack-alerts'
+    slack_configs:
+      - send_resolved: true
+        channel: '#devops-arun'
+        api_url: 'https://hooks.slack.com/services/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'
+        text: "🚨 Alert triggered! Check your system."
