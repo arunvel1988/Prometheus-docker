@@ -1,0 +1,19 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'csemanit2015@gmail.com'
+  smtp_auth_username: 'csemanit2015@gmail.com'
+  smtp_auth_password: 'weilcsagyudbvizv'
+
+route:
+  group_by: ['alertname']
+  receiver: 'jira-webhook'
+
+receivers:
+  - name: 'email-alerts'
+    email_configs:
+      - to: 'aryan.arunachalam@gmail.com'
+        send_resolved: true
+
+  - name: 'jira-webhook'
+    webhook_configs:
+      - url: 'http://your-webhook-server:5000/webhook'
