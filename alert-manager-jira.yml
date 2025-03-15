@@ -3,7 +3,7 @@ global:
   smtp_from: 'csemanit2015@gmail.com'
   smtp_auth_username: 'csemanit2015@gmail.com'
   smtp_auth_password: 'eyfepksrhjbinozo'
-  smtp_require_tls: true  # ✅ Ensures secure email delivery
+  smtp_require_tls: true 
 
 route:
   group_by: ['alertname']
@@ -15,6 +15,6 @@ receivers:
       - to: 'footballarunvel@gmail.com'
         from: 'csemanit2015@gmail.com'
         send_resolved: true
-        require_tls: true  # ✅ Required for Gmail SMTP
+        require_tls: true  
     webhook_configs:
       - url: 'http://65.2.182.10:5000/webhook'  # ✅ Jira Webhook URL
