@@ -3,19 +3,18 @@ global:
   smtp_from: 'csemanit2015@gmail.com'
   smtp_auth_username: 'csemanit2015@gmail.com'
   smtp_auth_password: 'eyfepksrhjbinozo'
+  smtp_require_tls: true  # ✅ Ensures secure email delivery
 
 route:
   group_by: ['alertname']
-  receiver: 'email-alerts'
-  routes:
-    - receiver: 'jira-webhook'
+  receiver: 'email-and-jira'
 
 receivers:
-  - name: 'email-alerts'
+  - name: 'email-and-jira'
     email_configs:
       - to: 'footballarunvel@gmail.com'
+        from: 'csemanit2015@gmail.com'
         send_resolved: true
-
-  - name: 'jira-webhook'
+        require_tls: true  # ✅ Required for Gmail SMTP
     webhook_configs:
-      - url: 'http://65.2.182.10:5000/webhook'
+      - url: 'http://65.2.182.10:5000/webhook'  # ✅ Jira Webhook URL
