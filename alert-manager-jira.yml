@@ -2,11 +2,13 @@ global:
   smtp_smarthost: 'smtp.gmail.com:587'
   smtp_from: 'csemanit2015@gmail.com'
   smtp_auth_username: 'csemanit2015@gmail.com'
-  smtp_auth_password: 'wpepvpvoqgziiphg'
+  smtp_auth_password: 'eyfepksrhjbinozo'
 
 route:
   group_by: ['alertname']
-  receiver: 'default-receiver'  # Route alerts to both email and webhook
+  receiver: 'email-alerts'
+  routes:
+    - receiver: 'jira-webhook'
 
 receivers:
   - name: 'email-alerts'
@@ -17,8 +19,3 @@ receivers:
   - name: 'jira-webhook'
     webhook_configs:
       - url: 'http://65.2.182.10:5000/webhook'
-
-  - name: 'default-receiver'
-    receivers: 
-      - 'email-alerts'
-      - 'jira-webhook'
