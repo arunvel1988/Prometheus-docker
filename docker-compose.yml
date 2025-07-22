@@ -17,7 +17,7 @@ services:
     image: nginx/nginx-prometheus-exporter:latest
     container_name: nginx_exporter
     environment:
-      - NGINX_SERVER_ADDR=http://nginx:80/nginx_status  # NGINX status page URL
+      - NGINX_STATUS_URL=http://nginx:80/nginx_status
     ports:
       - "9113:9113"  # Expose the metrics endpoint on port 9113
     networks:
