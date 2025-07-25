@@ -26,4 +26,13 @@ sum(node_memory_MemAvailable_bytes) by (instance)
 avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance)
 
 
+########################################################################################################
+
+100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) (time series )
+
+((node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes) * 100 (time series)
+
+########################################################################################################
+
+
 
