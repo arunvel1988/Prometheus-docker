@@ -1,0 +1,29 @@
+node_cpu_seconds_total
+
+
+node_cpu_seconds_total{mode="idle", cpu="0", instance="192.168.0.104:9100"}
+
+node_cpu_seconds_total{mode="idle"}
+
+
+node_cpu_seconds_total{mode=~"user|system"}
+
+
+instant vector
+node_memory_MemFree_bytes
+
+range vector
+node_cpu_seconds_total{mode="idle"}[5m]
+
+
+rate(node_cpu_seconds_total{mode="idle"}[5m])
+
+100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+
+sum(node_memory_MemAvailable_bytes) by (instance)
+
+avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance)
+
+
+
